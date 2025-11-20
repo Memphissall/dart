@@ -1,33 +1,43 @@
 class Produk {
-  // 1.definisi var yang dibutuhkan
-  // 2.set ke final agar tidak dapat dirubah setelah dibuat
+  // 1. definisi variable
   final int id;
   final String title;
-  final String decription;
+  final String description;   // diperbaiki
   final double price;
   final String category;
   final String image;
 
-// buat konstruktor
-Produk({
-  required this.id,
-  required this.title,
-  required this.decription,
-  required this.price,
-  required this.category,
-  required this.image,
+  // 2. constructor
+  Produk({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.price,
+    required this.category,
+    required this.image,
   });
 
-//membuat method untuk import untuk dari json
-//membuat method dengan keyword factory
-factory Produk.darijson(Map<String,dynamic> json){
-  return Produk(
-  id: json["id"],
-  title: json["title"],
-  decription: json["decription"],
-  price: json["price"],
-  category: json["category"],
-  image: json["image"]
-  );
-}
+  // 3. factory untuk parsing JSON
+  factory Produk.dariJson(Map<String, dynamic> json) {
+    return Produk(
+      id: json["id"],
+      title: json["title"],
+      description: json["description"],   // perbaikan di sini
+      price: (json["price"] as num).toDouble(), // aman jika int/double
+      category: json["category"],
+      image: json["image"],
+    );
+  }
+
+  // 4. method untuk convert ke JSON (opsional, berguna untuk POST/PUT)
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "title": title,
+      "description": description,
+      "price": price,
+      "category": category,
+      "image": image,
+    };
+  }
 }
